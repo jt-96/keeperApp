@@ -14,6 +14,15 @@ function App() {
     });
   }
 
+  function deleteNote(index){
+
+    setNotes((prevValue) => {
+      return prevValue.filter((item, id) => {
+        return index !== id;
+      });
+    });
+  }
+
   return (
     <div className="App">
       <Header />
@@ -21,7 +30,7 @@ function App() {
       {
         notes.map((note, index) => (
 
-          <Note key={index} title={note.title} content={note.content} />
+          <Note key={index} title={note.title} content={note.content} onDelete={deleteNote} id={index}/>
         ))
       }
       <Footer />
