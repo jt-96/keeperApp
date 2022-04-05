@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
+import Zoom from '@mui/material/Zoom';
 
 function CreateArea(props) {
 
@@ -7,6 +10,7 @@ function CreateArea(props) {
         content: ""
     });
 
+    const [isFocused, setIsFocused] = useState(false);
 
     function handleChange(event) {
 
@@ -20,16 +24,27 @@ function CreateArea(props) {
         });
     }
 
+    function handleFocus(){
+        setIsFocused(true);
+    }
+
     return (
         <div>
-            <form>
-                <input onChange={handleChange} type="text" name="title" placeholder='Title' value={newNote.title}/>
-                <textarea onChange={handleChange} name="content" placeholder="Take a note" rows={3} value={newNote.content}></textarea>
-                <button type='button' onClick={() => {
+            <form className="create-note">
+                {
+                isFocused && <input onChange={handleChange} type="text" name="title" placeholder='Title' value={newNote.title}/>
+                }
+                <textarea onChange={handleChange} onClick={handleFocus} name="content" placeholder="Take a note" rows={isFocused ? 3 : 1} value={newNote.content}></textarea>
+
+                <Zoom in={isFocused ? true : false}>
+                <Fab type='button' onClick={() => {
                     props.onAdd(newNote);
-                    setNewNote({title: "", content: ""});
-                }}>Add</button>
-        </form>
+                    setNewNote({ title: "", content: "" });
+                }}>
+                    <AddIcon />
+                </Fab>
+                </Zoom>
+            </form>
         </div >
     )
 }
